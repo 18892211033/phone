@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @CrossOrigin
@@ -30,7 +31,7 @@ public class UserRegisterController {
         boolean r = false ;
         if(null != u) {  // dao 层成功
             // 发送激活邮件
-            r = emailService.sendActive("user/active" , u.getActivecode(), u.getUserId() , u.getUserEmail()) ;
+            r = emailService.sendActive("userRegister/active" , u.getActivecode(), u.getUserId() , u.getUserEmail()) ;
         }
         return new ResponseData(r ? 0 : 1 , r ? "注册成功" : "注册失败" , r) ;
     }
@@ -75,13 +76,20 @@ public class UserRegisterController {
 
 
 
-    @GetMapping("name/{name}")
-    public ResponseData nameCheck(@PathVariable("name") String name) {
-        return null ;
+    @GetMapping
+    public Map<String, Boolean> namecheck(@RequestParam("name") String name){
+        boolean u=userRegisterService.getNameCount(name);
+        Map<String,Boolean> map=new HashMap<>();
+        map.put("valid",u);
+        return map;
     }
-    @GetMapping("email/{email}")
-    public ResponseData emailCheck(@PathVariable("email") String email) {
-        return null ;
+
+    @GetMapping("/email")
+    public Map<String, Boolean> emailcheck(@RequestParam("UserEmail") String email){
+        boolean u=userRegisterService.getEmailCount(email);
+        Map<String,Boolean> map=new HashMap<>();
+        map.put("valid",u);
+        return map;
     }
 
 

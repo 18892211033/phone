@@ -15,4 +15,8 @@ public interface UserRegisterService {
     // 登录
     Map<String , Object> login(String name , String pass) ;
 
+    boolean getNameCount(String name);
+
+     boolean getEmailCount(String email);
+
 }

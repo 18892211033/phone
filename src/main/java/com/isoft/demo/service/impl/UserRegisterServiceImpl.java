@@ -77,4 +77,15 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         }
         return map ;
     }
+    @Override
+    public boolean getNameCount(String name) {
+        int a=userRegisterDao.nameCheck(name);
+        return a>0 ? false : true;
+    }
+
+    @Override
+    public boolean getEmailCount(String email) {
+        int a=userRegisterDao.emailCheck(email);
+        return a>0 ? false : true;
+    }
 }
